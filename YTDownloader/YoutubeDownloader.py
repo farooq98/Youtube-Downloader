@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QThread, pyqtSignal
 import requests
 import pytube
-from threading import Thread
 from PIL import Image
 import io
 import os
@@ -191,8 +190,11 @@ class Ui_MainWindow(object):
         videofile = self.video.streams.get_by_itag(self.streamData[self.qualityComboBox.currentIndex()][0])
         self.size = videofile.filesize
         
-        self.t2 = Thread(target = videofile.download)
-        self.t2.start()
+        #self.t2 = Thread(target = videofile.download)
+        #self.t2.start()
+
+        self.downloadThread = DownloadThread(videofile.download)
+        self.downloadThread.start()
 
         time.sleep(0.5)
 
@@ -225,6 +227,15 @@ class ProgressThread(QThread):
     def run(self):
         while self.size != self.getSize():
             self.change_value.emit(round((self.getSize()*100)/self.size))
+
+class DownloadThread(QThread):
+    def __init__(self, downloadObject):
+        self.downloadObject = downloadObject
+        super().__init__()
+    
+    def run(self):
+        self.downloadObject()
+
 
 if __name__ == "__main__":
     import sys
