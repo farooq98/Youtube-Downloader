@@ -189,9 +189,6 @@ class Ui_MainWindow(object):
     def downloadBtnClcik(self):
         videofile = self.video.streams.get_by_itag(self.streamData[self.qualityComboBox.currentIndex()][0])
         self.size = videofile.filesize
-        
-        #self.t2 = Thread(target = videofile.download)
-        #self.t2.start()
 
         self.downloadThread = DownloadThread(videofile.download)
         self.downloadThread.start()
