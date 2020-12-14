@@ -204,7 +204,7 @@ class Ui_MainWindow(object):
         self.progressBar.setValue(val)
 
     def filterTilte(self, title):
-        return "".join(list(map(lambda x: "" if x in "/\\<>:|?*\"" else x, title)))
+        return "".join(list(map(lambda x: "" if x in "/\\<>.:|?*\"" else x, title)))
 
     def getSize(self):
         return os.path.getsize("./" + self.videoTitle + "." + self.streamData[self.qualityComboBox.currentIndex()][1].split("/")[1])
