@@ -196,7 +196,7 @@ class Ui_MainWindow(object):
 
         time.sleep(0.5)
 
-        self.thread = MyThread(self.size, self.getSize)
+        self.thread = ProgressThread(self.size, self.getSize)
         self.thread.change_value.connect(self.setProgressVal)
         self.thread.start()
 
@@ -213,7 +213,7 @@ class Ui_MainWindow(object):
         t1 = Thread(target = self.enterBtnClick)
         t1.start()
 
-class MyThread(QThread):
+class ProgressThread(QThread):
 
     change_value = pyqtSignal(int)
     
