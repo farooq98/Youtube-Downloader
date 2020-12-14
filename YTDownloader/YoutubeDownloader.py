@@ -209,8 +209,11 @@ class Ui_MainWindow(object):
         return os.path.getsize("./" + self.videoTitle + "." + self.streamData[self.qualityComboBox.currentIndex()][1].split("/")[1])
         
     def fetchData(self):
-        t1 = Thread(target = self.enterBtnClick)
-        t1.start()
+        # t1 = Thread(target = self.enterBtnClick)
+        # t1.start()
+
+        self.fetchThread = FetchThread(self.enterBtnClick)
+        self.fetchThread.start()
 
 class ProgressThread(QThread):
 
@@ -232,6 +235,14 @@ class DownloadThread(QThread):
     
     def run(self):
         self.downloadObject()
+
+class FetchThread(QThread):
+    def __init__(self, targetFunction):
+        self.targetFunction = targetFunction
+        super().__init__()
+
+    def run(self):
+        self.targetFunction()
 
 
 if __name__ == "__main__":
